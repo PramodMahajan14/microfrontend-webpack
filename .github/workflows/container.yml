@@ -7,10 +7,6 @@ on:
     branches:
       - master
 
-defaults:
-  run:
-    working-directory: packages/container
-
 jobs:
   build-node:
     runs-on: ubuntu-latest
@@ -19,8 +15,10 @@ jobs:
       - run: node --version
       - run: npm --version
       - uses: actions/checkout@v3
-      - run: npm install
-      - run: npm run build
+      - run: |
+          cd packages/container
+          npm install
+
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
