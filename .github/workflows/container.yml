@@ -10,11 +10,11 @@ on:
 jobs:
   build-node:
     runs-on: ubuntu-latest
-    container: node:16
+
     steps:
       - uses: actions/checkout@v3
       - run: npm install
-        working-directory: cd packages/container
+        working-directory: packages/container
       - run: npm run build
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
