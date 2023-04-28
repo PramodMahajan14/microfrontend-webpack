@@ -6,6 +6,12 @@ on:
   pull_request:
     branches:
       - master
+    path:
+      - "packages/container/**"
+
+defaults:
+  run:
+    working-directory: packages/container
 
 jobs:
   build-node:
@@ -14,7 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install
-        working-directory: packages/container
       - run: npm run build
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
